@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">My Application</string>
+    <string name="button">Button</string>
+    <string name="User_Register_name">User Register</string>
+    <string name="main">main</string>
+    <string name="sign_in">sign in</string>
+</resources>
