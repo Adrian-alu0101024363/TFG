@@ -18,7 +18,7 @@ import android.widget.TextView;
 import com.example.myapplication.db.DbHelper;
 import com.example.myapplication.db.DbUsers;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,24 +46,9 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.options_menu, menu);
-        return true;
+    public void on_AchievementButton(View view) {
+        Intent intent = new Intent(this,Achievement.class);
+        startActivity(intent);
     }
-    public boolean onOptionsItemSelected(MenuItem item) {
 
-        switch(item.getItemId()) {
-            case R.id.main_page:
-                Intent main_intent = new Intent(this,MainActivity.class);
-                startActivity(main_intent);
-                return true;
-            case R.id.sign_in:
-                Intent sign_intent = new Intent(this,UserRegister.class);
-                startActivity(sign_intent);
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
 }

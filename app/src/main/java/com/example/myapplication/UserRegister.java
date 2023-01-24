@@ -16,7 +16,7 @@ import android.widget.Toast;
 import com.example.myapplication.db.DbHelper;
 import com.example.myapplication.db.DbUsers;
 
-public class UserRegister extends AppCompatActivity {
+public class UserRegister extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

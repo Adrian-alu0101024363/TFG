@@ -35,6 +35,11 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+        <activity android:name=".Achievement"
+            android:exported="false"
+            android:label="Achievement page"
+            android:parentActivityName=".MainActivity">
+        </activity>
         <activity
             android:name=".ar_screen"
             android:exported="false"

@@ -9,4 +9,8 @@
     <item
         android:id="@+id/sign_in"
         android:title="@string/sign_in" />
+    <item android:title="@string/start_ar"
+        android:id="@+id/start_AR"/>
+    <item android:title="@string/Achievements"
+        android:id="@+id/achievement_page"/>
 </menu>
