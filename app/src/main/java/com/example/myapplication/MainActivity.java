@@ -7,6 +7,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.service.autofill.TextValueSanitizer;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -33,8 +34,14 @@ public class MainActivity extends BaseActivity {
         SQLiteDatabase db = dbHelper.getReadableDatabase();
         if (db != null) {
             DbUsers dbUsers = new DbUsers(MainActivity.this);
-            Userinfo actualUser = dbUsers.getLastUser();
-            txtHello.setText("Welcome back " + actualUser.getName());
+            Userinfo currentUser = dbUsers.getLastUser();
+            txtHello.setText("Welcome back " + currentUser.getName());
+            Log.d("entro", currentUser.getName());
+            if (currentUser.getName() != "") {
+                Button userButton = findViewById(R.id.button);
+                userButton.setVisibility(View.GONE);
+
+            }
         }
     }
     public void on_ar(View view) {
@@ -51,4 +58,11 @@ public class MainActivity extends BaseActivity {
         startActivity(intent);
     }
 
+    public void on_WordList(View view) {
+        Intent intent = new Intent(this,WordList.class);
+        startActivity(intent);
+    }
+    public void onInfoUser(View view) {
+
+    }
 }

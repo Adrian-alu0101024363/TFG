@@ -2,12 +2,12 @@ package com.example.myapplication
 
 import android.Manifest
 import android.content.ContentValues
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
-import androidx.appcompat.app.AppCompatActivity
-import androidx.camera.core.ImageCapture
+import android.text.method.ScrollingMovementMethod
 import androidx.camera.video.Recorder
 import androidx.camera.video.Recording
 import androidx.camera.video.VideoCapture
@@ -18,40 +18,41 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import android.widget.Toast
 import androidx.camera.lifecycle.ProcessCameraProvider
-import androidx.camera.core.Preview
-import androidx.camera.core.CameraSelector
 import android.util.Log
-import androidx.camera.core.ImageAnalysis
-import androidx.camera.core.ImageCaptureException
-import androidx.camera.core.ImageProxy
-import androidx.camera.video.FallbackStrategy
-import androidx.camera.video.MediaStoreOutputOptions
-import androidx.camera.video.Quality
-import androidx.camera.video.QualitySelector
-import androidx.camera.video.VideoRecordEvent
-import androidx.core.content.PermissionChecker
-import java.nio.ByteBuffer
+import android.widget.TextView
+import androidx.camera.core.*
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import java.text.SimpleDateFormat
 import java.util.Locale
 
 typealias LumaListener = (luma: Double) -> Unit
 
 
-class ar_screen : BaseActivity() {
+@ExperimentalGetImage class ar_screen : BaseActivity() {
     private lateinit var viewBinding: ActivityArScreenBinding
-
+    lateinit var tv: TextView
     private var imageCapture: ImageCapture? = null
 
     private var videoCapture: VideoCapture<Recorder>? = null
     private var recording: Recording? = null
 
     private lateinit var cameraExecutor: ExecutorService
+    //Para cambiar texto a traves del model (clase creada necesaria)
+    private lateinit var viewModel: ArActivityViewModel
+    private lateinit var viewModelFactory: ArActivityViewModelFactory
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityArScreenBinding.inflate(layoutInflater)
         setContentView(viewBinding.root)
+        tv = findViewById(R.id.srcText)
+        tv.movementMethod = ScrollingMovementMethod()
+        tv.isSingleLine = false
 
+        viewModelFactory = ArActivityViewModelFactory("124")
+        viewModel = ViewModelProvider(this,viewModelFactory).get(ArActivityViewModel::class.java)
         // Request camera permissions
         if (allPermissionsGranted()) {
             startCamera()
@@ -64,7 +65,7 @@ class ar_screen : BaseActivity() {
         }
         // Set up the listeners for take photo and video capture buttons
         viewBinding.imageCaptureButton.setOnClickListener { takePhoto() }
-        viewBinding.videoCaptureButton.setOnClickListener { captureVideo() }
+        //viewBinding.videoCaptureButton.setOnClickListener { captureVideo() }
 
         cameraExecutor = Executors.newSingleThreadExecutor()
     }
@@ -107,6 +108,10 @@ class ar_screen : BaseActivity() {
                     val msg = "Photo capture succeeded: ${output.savedUri}"
                     Toast.makeText(baseContext, msg, Toast.LENGTH_SHORT).show()
                     Log.d(TAG, msg)
+                    val savedUri = output.savedUri ?: return
+                    val intent = Intent(this@ar_screen, ImageDisplayActivity::class.java)
+                    intent.putExtra("imageUri", savedUri.toString())
+                    startActivity(intent)
                 }
             }
         )
@@ -130,16 +135,28 @@ class ar_screen : BaseActivity() {
 
             // Select back camera as a default
             val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
-
+            var result = MutableLiveData<String>("")
             //ImageCapture initialize
             imageCapture = ImageCapture.Builder().setCaptureMode(ImageCapture.CAPTURE_MODE_MINIMIZE_LATENCY).build()
+            val imageAnalyzer = ImageAnalysis.Builder()
+                .build()
+                .also {
+                    it.setAnalyzer(cameraExecutor, Analyzer(viewModel.sourceText))
+                }
+            viewModel.sourceText.observe(this, Observer { viewBinding.srcText.text = tv.text.toString() + it
+                var scrollAmount = tv.layout.getLineTop(tv.lineCount) - tv.height
+                if (scrollAmount > 0)
+                    tv.scrollTo(1,scrollAmount)
+                else
+                    tv.scrollTo(1,1)
+            })
             try {
                 // Unbind use cases before rebinding
                 cameraProvider.unbindAll()
 
                 // Bind use cases to camera
                 cameraProvider.bindToLifecycle(
-                    this, cameraSelector, preview, imageCapture)
+                    this, cameraSelector, preview, imageCapture, imageAnalyzer)
 
             } catch(exc: Exception) {
                 Log.e(TAG, "Use case binding failed", exc)

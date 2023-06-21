@@ -33,6 +33,9 @@ public class BaseActivity extends AppCompatActivity {
                 Intent achievement_intent = new Intent(this,Achievement.class);
                 startActivity(achievement_intent);
                 return true;
+            case R.id.word_list:
+                Intent wordList_intent = new Intent(this,WordList.class);
+                startActivity(wordList_intent);
             default:
                 return super.onOptionsItemSelected(item);
         }

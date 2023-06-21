@@ -23,21 +23,30 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.651" />
 
-    <ImageView
-        android:id="@+id/dosb"
-        android:layout_width="175dp"
-        android:layout_height="232dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginBottom="35dp"
-        android:contentDescription="@string/welcome_img"
-        android:visibility="visible"
+    <Button
+        android:id="@+id/InfoUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="onInfoUser"
+        android:text="User info"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.353"
-        app:srcCompat="@drawable/twob" />
+        app:layout_constraintVertical_bias="0.651" />
+
+    <ImageView
+        android:id="@+id/dosb"
+        android:layout_width="259dp"
+        android:layout_height="294dp"
+        android:layout_marginTop="36dp"
+        android:contentDescription="@string/welcome_img"
+        android:visibility="visible"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/welcomeMsg"
+        app:srcCompat="@drawable/templovertical" />
 
     <Button
         android:id="@+id/ar_button"
@@ -50,17 +59,18 @@
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button"
-        app:layout_constraintVertical_bias="0.142" />
+        app:layout_constraintVertical_bias="0.126" />
 
     <TextView
         android:id="@+id/welcomeMsg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="52dp"
         android:text="@string/welcome_back"
         android:textColor="#FFFFFF"
         android:textSize="24sp"
-        app:layout_constraintBottom_toTopOf="@+id/dosb"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -81,7 +91,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
-        android:text="@string/srs"
+        android:onClick="on_WordList"
+        android:text="Word List"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"

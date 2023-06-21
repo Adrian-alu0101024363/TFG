@@ -7,24 +7,35 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 
 public class DbHelper extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private static final String DATABASE_NAME = "app.db";
     public static final String TABLE_USERS = "t_users";
+    public static final String TABLE_WORDS = "t_words";
     public DbHelper(@Nullable Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
-        String initialTableString = "CREATE TABLE " + TABLE_USERS + "(id INTEGER PRIMARY KEY AUTOINCREMENT," +
-        "name TEXT NOT NULL," + "email TEXT)";
-        sqLiteDatabase.execSQL(initialTableString);
+        String initialUsersTableString = "CREATE TABLE " + TABLE_USERS + "(id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "name TEXT NOT NULL," +
+                "email TEXT," +
+                "nivel INTEGER," +
+                "experiencia REAL," +
+                "rango TEXT)";
+        sqLiteDatabase.execSQL(initialUsersTableString);
+
+        String initialWordsTableString = "CREATE TABLE " + TABLE_WORDS + "(id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "imageurl TEXT," +
+                "texto TEXT," +
+                "UsuarioId INTEGER REFERENCES " + TABLE_USERS + "(id))";
+        sqLiteDatabase.execSQL(initialWordsTableString);
     }
 
-    //every time you change version this is called, drop old table creates new one
     @Override
-    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int i, int i1) {
-        sqLiteDatabase.execSQL("DROP TABLE " + TABLE_USERS);
+    public void onUpgrade(SQLiteDatabase sqLiteDatabase, int oldVersion, int newVersion) {
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_WORDS);
+        sqLiteDatabase.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
         onCreate(sqLiteDatabase);
     }
 }

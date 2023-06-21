@@ -47,6 +47,18 @@
             android:parentActivityName=".MainActivity">
         </activity>
         <activity
+            android:name=".ImageDisplayActivity"
+            android:exported="false"
+            android:label="ImageDisplay"
+            android:parentActivityName=".MainActivity">
+        </activity>
+        <activity
+            android:name=".WordList"
+            android:exported="false"
+            android:label="WordList"
+            android:parentActivityName=".MainActivity">
+        </activity>
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

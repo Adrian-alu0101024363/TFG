@@ -13,4 +13,6 @@
         android:id="@+id/start_AR"/>
     <item android:title="@string/Achievements"
         android:id="@+id/achievement_page"/>
+    <item android:title="@string/wordlist"
+        android:id="@+id/word_list"/>
 </menu>
