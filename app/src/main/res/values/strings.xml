@@ -17,4 +17,5 @@
     <string name="start_ar">start AR</string>
     <string name="image_per_level">Image per level</string>
     <string name="wordlist">WordList</string>
+    <string name="UserInfo">UserInfo</string>
 </resources>

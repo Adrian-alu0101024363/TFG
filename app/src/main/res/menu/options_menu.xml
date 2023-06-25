@@ -15,4 +15,6 @@
         android:id="@+id/achievement_page"/>
     <item android:title="@string/wordlist"
         android:id="@+id/word_list"/>
+    <item android:title="@string/UserInfo"
+        android:id="@+id/InfoUser"/>
 </menu>

@@ -59,6 +59,12 @@
             android:parentActivityName=".MainActivity">
         </activity>
         <activity
+            android:name=".UserInfoPage"
+            android:exported="false"
+            android:label="UserInfo"
+            android:parentActivityName=".MainActivity">
+        </activity>
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

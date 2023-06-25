@@ -1,25 +1,26 @@
 package com.example.myapplication
 
 
+import android.content.ContentValues
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.ExperimentalGetImage
-import com.example.myapplication.databinding.ActivityArScreenBinding
 import com.example.myapplication.databinding.ActivityImageDisplayBinding
+import com.example.myapplication.db.DbHelper
+import com.example.myapplication.db.DbHelper.TABLE_WORDS
+import com.example.myapplication.db.DbUsers
 import com.google.android.gms.tasks.Task
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.Text
 import com.google.mlkit.vision.text.TextRecognition
 import com.google.mlkit.vision.text.japanese.JapaneseTextRecognizerOptions
-import com.google.mlkit.vision.text.latin.TextRecognizerOptions
 import java.io.IOException
 
 
@@ -61,11 +62,44 @@ import java.io.IOException
     override fun onBackPressed() {
         val intent = Intent(this, ar_screen::class.java)
         startActivity(intent)
-        startActivity(intent)
         finish()
     }
     private fun onSaveCard() {
         Log.d("texto", editText1.text.toString())
         Toast.makeText(baseContext, editText1.text.toString(), Toast.LENGTH_SHORT).show()
+        val dbHelper = DbHelper(this@ImageDisplayActivity)
+        val db = dbHelper.writableDatabase
+        if (db != null) {
+            val dbUsers = DbUsers(this@ImageDisplayActivity)
+            val currentUser = dbUsers.lastUser
+            if (currentUser.name !== "") {
+                currentUser.experiencia += editText1.text.length
+                if(currentUser.experiencia >= 3.0) {
+                    currentUser.nivel++
+                }
+                dbUsers.updateUser(currentUser)
+                dbUsers.close()
+                val values = ContentValues()
+                val imageUriString = intent.getStringExtra("imageUri")
+                values.put("imageurl", imageUriString)
+                values.put("texto", editText1.text.toString())
+                values.put("UsuarioId", currentUser.id)
+                val newRowId = db.insert(TABLE_WORDS, null, values)
+
+                if (newRowId != -1L) {
+                    // La inserción fue exitosa
+                    // Puedes realizar las acciones necesarias aquí
+                } else {
+                    // La inserción falló
+                    // Puedes manejar el caso de error aquí
+                }
+                db.close()
+                val intent = Intent(this, ar_screen::class.java)
+                startActivity(intent)
+                finish()
+            } else {
+                Toast.makeText(baseContext, "No usuario", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }

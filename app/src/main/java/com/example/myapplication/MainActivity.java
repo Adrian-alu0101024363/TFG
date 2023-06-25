@@ -40,7 +40,13 @@ public class MainActivity extends BaseActivity {
             if (currentUser.getName() != "") {
                 Button userButton = findViewById(R.id.button);
                 userButton.setVisibility(View.GONE);
-
+                Button userInfoButton = findViewById(R.id.InfoUser);
+                userInfoButton.setVisibility(View.VISIBLE);
+            } else {
+                Button registerButton = findViewById(R.id.button);
+                registerButton.setVisibility(View.VISIBLE);
+                Button userInfoButton = findViewById(R.id.InfoUser);
+                userInfoButton.setVisibility(View.GONE);
             }
         }
     }
@@ -63,6 +69,7 @@ public class MainActivity extends BaseActivity {
         startActivity(intent);
     }
     public void onInfoUser(View view) {
-
+        Intent intent = new Intent(this,UserInfoPage.class);
+        startActivity(intent);
     }
 }
