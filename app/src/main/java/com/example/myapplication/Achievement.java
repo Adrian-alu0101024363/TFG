@@ -1,5 +1,7 @@
 package com.example.myapplication;
 
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
@@ -7,6 +9,9 @@ import android.view.View;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+
+import com.example.myapplication.db.DbHelper;
+import com.example.myapplication.db.DbUsers;
 
 public class Achievement extends BaseActivity {
 
@@ -37,10 +42,47 @@ public class Achievement extends BaseActivity {
         ImageView[] images = new ImageView[total];
         LinearLayout linear = findViewById(R.id.linear_images);
         for (int position = 1; position <= total; position++) {
-            String imgTag = "img";
-            imgTag += position;
-            images[position-1] = linear.findViewWithTag(imgTag);
+            String imgTag = "img" + position;
+            ImageView imageView = linear.findViewWithTag(imgTag);
+            Drawable drawable = getDrawableForLevel(position);
+            imageView.setImageDrawable(drawable);
+            images[position-1] = imageView;
         }
         return images;
+    }
+    private Drawable getDrawableForLevel(int position) {
+        // Aquí puedes implementar la lógica para determinar qué drawable asignar en función del nivel del usuario y la posición de la imagen.
+        // Por ejemplo, podrías usar una estructura condicional o una tabla de mapeo.
+        // Aquí hay un ejemplo simple:
+        int userLevel = 1;
+        DbUsers dbUsers = new DbUsers(Achievement.this);
+        Userinfo currentUser = dbUsers.getLastUser();
+        if (currentUser.getName() != "") {
+            userLevel = currentUser.getNivel();
+        }
+        if (userLevel >= position) {
+            // El usuario ha alcanzado o superado el nivel correspondiente a la posición de la imagen.
+            // Asigna el drawable adecuado para mostrar.
+            switch (position) {
+                case 1:
+                    return getResources().getDrawable(R.drawable.castle, getTheme());
+                case 2:
+                    return getResources().getDrawable(R.drawable.view, getTheme());
+                case 3:
+                    return getResources().getDrawable(R.drawable.rasha, getTheme());
+                case 4:
+                    return getResources().getDrawable(R.drawable.street, getTheme());
+                case 5:
+                    return getResources().getDrawable(R.drawable.temple, getTheme());
+                // Agrega más casos según sea necesario para cada nivel y su drawable correspondiente.
+                default:
+                    // Si no se cumple ninguna condición, devuelve el drawable predeterminado o nulo.
+                    return null;
+            }
+        } else {
+            // El usuario aún no ha alcanzado el nivel correspondiente a la posición de la imagen.
+            // Asigna un drawable para mostrar cuando esté bloqueado o no alcanzado.
+            return getResources().getDrawable(R.drawable.grey, getTheme());
+        }
     }
 }

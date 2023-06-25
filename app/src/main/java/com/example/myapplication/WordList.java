@@ -26,6 +26,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.myapplication.db.DbHelper;
+import com.example.myapplication.db.DbUsers;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
@@ -86,8 +87,16 @@ public class WordList extends BaseActivity {
             // Consultar los datos de la base de datos
             DbHelper dbHelper = new DbHelper(WordList.this);
             SQLiteDatabase db = dbHelper.getReadableDatabase();
-            Cursor cursor = db.query(DbHelper.TABLE_WORDS, null, null, null, null, null, null);
-
+            String selection = "UsuarioId = ?";
+            DbUsers dbUsers = new DbUsers(WordList.this);
+            Userinfo currentUser = dbUsers.getLastUser();
+            Cursor cursor = db.query(DbHelper.TABLE_WORDS, null, null, null,null, null, null);
+            if (currentUser.getName() != "") {
+                int currentUserId = currentUser.getId();
+                String currentUserStringId = Integer.toString(currentUserId);
+                String[] selectionArgs = {currentUserStringId};
+                cursor = db.query(DbHelper.TABLE_WORDS, null, selection, selectionArgs, null, null, null);
+            }
             // Recorrer el cursor y agregar los valores a las listas
             if (cursor.moveToFirst()) {
                 int textoIndex = cursor.getColumnIndex("texto");
