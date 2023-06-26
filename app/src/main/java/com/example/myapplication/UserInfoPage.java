@@ -5,8 +5,10 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.myapplication.db.DbHelper;
 import com.example.myapplication.db.DbUsers;
 
@@ -39,8 +41,19 @@ public class UserInfoPage  extends BaseActivity {
                 textViewNivel.setText("Nivel: " + currentUser.getNivel());
                 textViewExperiencia.setText("Experiencia: " + currentUser.getExperiencia());
                 textViewRango.setText("Rango: " + currentUser.getRango());
+                DbWords dbWords = new DbWords(UserInfoPage.this);
+                Wordinfo lastWord = dbWords.getLastWord();
+                if (lastWord != null) {
+                    ImageView imageView = findViewById(R.id.imageView);
+                    TextView textViewCard = findViewById(R.id.textViewCard);
+
+                    // Aquí puedes utilizar los métodos correspondientes de lastWord para obtener la imagen y el texto
+                    String imageUrl = lastWord.getImageUrl();
+                    String text = lastWord.getText();
+                    Glide.with(UserInfoPage.this).load(imageUrl).into(imageView);
+                    textViewCard.setText(text);
+                }
             }
         }
-
     }
 }

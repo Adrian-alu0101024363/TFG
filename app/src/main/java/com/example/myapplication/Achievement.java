@@ -51,9 +51,7 @@ public class Achievement extends BaseActivity {
         return images;
     }
     private Drawable getDrawableForLevel(int position) {
-        // Aquí puedes implementar la lógica para determinar qué drawable asignar en función del nivel del usuario y la posición de la imagen.
-        // Por ejemplo, podrías usar una estructura condicional o una tabla de mapeo.
-        // Aquí hay un ejemplo simple:
+
         int userLevel = 1;
         DbUsers dbUsers = new DbUsers(Achievement.this);
         Userinfo currentUser = dbUsers.getLastUser();
@@ -66,22 +64,21 @@ public class Achievement extends BaseActivity {
             switch (position) {
                 case 1:
                     return getResources().getDrawable(R.drawable.castle, getTheme());
-                case 2:
+                case 6:
                     return getResources().getDrawable(R.drawable.view, getTheme());
-                case 3:
+                case 11:
                     return getResources().getDrawable(R.drawable.rasha, getTheme());
-                case 4:
+                case 16:
                     return getResources().getDrawable(R.drawable.street, getTheme());
-                case 5:
+                case 21:
                     return getResources().getDrawable(R.drawable.temple, getTheme());
                 // Agrega más casos según sea necesario para cada nivel y su drawable correspondiente.
                 default:
                     // Si no se cumple ninguna condición, devuelve el drawable predeterminado o nulo.
-                    return null;
+                    return getResources().getDrawable(R.drawable.grey, getTheme());
             }
         } else {
             // El usuario aún no ha alcanzado el nivel correspondiente a la posición de la imagen.
-            // Asigna un drawable para mostrar cuando esté bloqueado o no alcanzado.
             return getResources().getDrawable(R.drawable.grey, getTheme());
         }
     }

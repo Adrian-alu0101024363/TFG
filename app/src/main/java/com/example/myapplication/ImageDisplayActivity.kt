@@ -74,8 +74,24 @@ import java.io.IOException
             val currentUser = dbUsers.lastUser
             if (currentUser.name !== "") {
                 currentUser.experiencia += editText1.text.length
-                if(currentUser.experiencia >= 3.0) {
+                val condicion = 100 * currentUser.nivel
+                val amariExperience = currentUser.experiencia - condicion
+                if(currentUser.experiencia >= condicion) {
                     currentUser.nivel++
+                    if (amariExperience > 0) {
+                        currentUser.experiencia = amariExperience
+                    } else {
+                        currentUser.experiencia = 0.0
+                    }
+                    if (currentUser.nivel in 4..40) {
+                        currentUser.rango = "忍者くノ一"
+                    } else if (currentUser.nivel in 41 .. 65) {
+                        currentUser.rango = "侍"
+                    } else if (currentUser.nivel > 65) {
+                        currentUser.rango = "将軍"
+                    } else {
+                        currentUser.rango = "一般人"
+                    }
                 }
                 dbUsers.updateUser(currentUser)
                 dbUsers.close()
@@ -84,7 +100,8 @@ import java.io.IOException
                 values.put("imageurl", imageUriString)
                 values.put("texto", editText1.text.toString())
                 values.put("UsuarioId", currentUser.id)
-                val newRowId = db.insert(TABLE_WORDS, null, values)
+                db.insert(TABLE_WORDS, null, values)
+                /*val newRowId = db.insert(TABLE_WORDS, null, values)
 
                 if (newRowId != -1L) {
                     // La inserción fue exitosa
@@ -92,7 +109,7 @@ import java.io.IOException
                 } else {
                     // La inserción falló
                     // Puedes manejar el caso de error aquí
-                }
+                }*/
                 db.close()
                 val intent = Intent(this, ar_screen::class.java)
                 startActivity(intent)

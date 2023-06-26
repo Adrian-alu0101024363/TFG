@@ -1,11 +1,16 @@
 package com.example.myapplication;
 
+import org.jetbrains.annotations.NotNull;
+
+import kotlin.jvm.JvmField;
+
 public class Userinfo {
     private  String name;
     private String email;
     private int id;
     private int nivel;
     private double experiencia;
+    @JvmField
     private String rango;
 
     public Userinfo(String name, String email, int id) {
@@ -32,7 +37,7 @@ public class Userinfo {
     }
     public int getNivel() { return nivel;}
     public double getExperiencia() {return experiencia;}
-    public String getRango() {return  rango;}
+    public String getRango() {return rango;}
     public void setName(String name) {
         this.name = name;
     }
@@ -44,4 +49,8 @@ public class Userinfo {
     }
     public void setNivel(int level) {this.nivel = level;}
     public void setExperiencia(double experience) { this.experiencia = experience;}
+
+    public void setRango(@NotNull String s) {
+        this.rango = s;
+    }
 }

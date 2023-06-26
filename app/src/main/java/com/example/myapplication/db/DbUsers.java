@@ -55,7 +55,7 @@ public class DbUsers extends  DbHelper {
         } catch (Exception ex) {
             ex.toString();
         }
-        return new Userinfo(0,"","", 1, 0 , "Ippanjin");
+        return new Userinfo(0,"","", 1, 0 , "一般人");
     }
 
     public void updateUser(Userinfo user) {
@@ -63,6 +63,7 @@ public class DbUsers extends  DbHelper {
         ContentValues values = new ContentValues();
         values.put("experiencia", user.getExperiencia());
         values.put("nivel", user.getNivel());
+        values.put("rango", user.getRango());
         String whereClause = "id = ?";
         String[] whereArgs = {String.valueOf(user.getId())};
         db.update(TABLE_USERS, values, whereClause, whereArgs);
