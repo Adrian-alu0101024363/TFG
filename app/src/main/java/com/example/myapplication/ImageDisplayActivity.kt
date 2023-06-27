@@ -21,6 +21,7 @@ import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
 import com.google.mlkit.common.model.DownloadConditions
 import com.google.mlkit.common.model.RemoteModelManager
+import com.google.mlkit.nl.languageid.LanguageIdentification
 import com.google.mlkit.nl.translate.TranslateLanguage
 import com.google.mlkit.nl.translate.Translation
 import com.google.mlkit.nl.translate.Translator
@@ -136,6 +137,7 @@ import java.io.IOException
         if (current.target == "Spanish") {
             targetLanguage = TranslateLanguage.SPANISH
         }
+
         val options = TranslatorOptions.Builder()
             .setSourceLanguage(targetLanguage)
             .setTargetLanguage(nativeLanguage)
