@@ -27,6 +27,14 @@
             android:text="Texto debajo de la imagen"
             android:textSize="18sp"
             android:gravity="center"/>
+        <TextView
+            android:id="@+id/secondTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="Texto traducido"
+            android:textSize="18sp"
+            android:gravity="center"/>
 
     </LinearLayout>
 

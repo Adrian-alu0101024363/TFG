@@ -56,6 +56,7 @@ public class WordList extends BaseActivity {
         //private int[] images = {R.drawable.castle, R.drawable.osaka, R.drawable.temple, R.drawable.view};
         private List<String> texts = new ArrayList<>();
         private List<String> images = new ArrayList<>();
+        private List<String> translations = new ArrayList<>();
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
@@ -66,6 +67,7 @@ public class WordList extends BaseActivity {
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
             holder.textView.setText(texts.get(position));
+            holder.translateView.setText(translations.get(position));
             String imagePath = images.get(position);
             Uri imageUri = Uri.parse(imagePath);
             Bitmap bitmap = getBitmapFromUri(imageUri);
@@ -101,12 +103,14 @@ public class WordList extends BaseActivity {
             if (cursor.moveToFirst()) {
                 int textoIndex = cursor.getColumnIndex("texto");
                 int imageurlIndex = cursor.getColumnIndex("imageurl");
+                int transIndex = cursor.getColumnIndex("translation");
                 do {
                     String texto = cursor.getString(textoIndex);
                     String imageurl = cursor.getString(imageurlIndex);
-
+                    String trans = cursor.getString(transIndex);
                     texts.add(texto);
                     images.add(imageurl);
+                    translations.add(trans);
 
                 } while (cursor.moveToNext());
             }
@@ -135,11 +139,13 @@ public class WordList extends BaseActivity {
         public class ViewHolder extends RecyclerView.ViewHolder {
             ImageView imageView;
             TextView textView;
+            TextView translateView;
 
             public ViewHolder(View itemView) {
                 super(itemView);
                 imageView = itemView.findViewById(R.id.imageView);
                 textView = itemView.findViewById(R.id.textView);
+                translateView = itemView.findViewById(R.id.secondTextView);
             }
         }
     }

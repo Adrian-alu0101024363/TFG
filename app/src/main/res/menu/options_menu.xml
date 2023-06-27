@@ -17,4 +17,6 @@
         android:id="@+id/word_list"/>
     <item android:title="@string/UserInfo"
         android:id="@+id/InfoUser"/>
+    <item android:title="Log In"
+        android:id="@+id/logIn"/>
 </menu>

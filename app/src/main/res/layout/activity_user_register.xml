@@ -6,36 +6,37 @@
     android:layout_height="match_parent"
     android:background="@color/black"
     tools:context=".UserRegister">
+
     <TextView
         android:id="@+id/textMessage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Hello World!"
+        android:textColor="@color/white"
         android:textSize="34sp"
         android:textStyle="bold"
-        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.417"
+        app:layout_constraintHorizontal_bias="0.448"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnHello"
-        app:layout_constraintVertical_bias="0.283" />
+        app:layout_constraintVertical_bias="0.275" />
 
     <Button
         android:id="@+id/btnHello"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="46dp"
-        android:layout_marginBottom="288dp"
+        android:layout_marginTop="69dp"
+        android:layout_marginBottom="160dp"
         android:backgroundTint="#952C2C"
         android:onClick="onBtnClick"
         android:text="@string/button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.457"
+        app:layout_constraintHorizontal_bias="0.454"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/EmailEdit"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <EditText
         android:id="@+id/NameEdit"
@@ -91,5 +92,55 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/SurnameEdit" />
+    <!-- Campo "Native Language" -->
+
+    <!-- Campo "Target Language" -->
+
+    <TextView
+        android:id="@+id/textNativeLanguage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Native Language"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/nativeLanguageSpinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.47"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/EmailEdit" />
+
+    <Spinner
+        android:id="@+id/nativeLanguageSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/textTargetLanguage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.462"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textNativeLanguage" />
+
+    <TextView
+        android:id="@+id/textTargetLanguage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:text="Target Language"
+        android:textColor="@color/white"
+        app:layout_constraintBottom_toTopOf="@+id/targetLanguageSpinner"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.468"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nativeLanguageSpinner" />
+
+    <Spinner
+        android:id="@+id/targetLanguageSpinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.462"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textTargetLanguage" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

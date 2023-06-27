@@ -7,7 +7,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import androidx.annotation.Nullable;
 
 public class DbHelper extends SQLiteOpenHelper {
-    private static final int DATABASE_VERSION = 8;
+    private static final int DATABASE_VERSION = 9;
     private static final String DATABASE_NAME = "app.db";
     public static final String TABLE_USERS = "t_users";
     public static final String TABLE_WORDS = "t_words";
@@ -22,12 +22,16 @@ public class DbHelper extends SQLiteOpenHelper {
                 "email TEXT," +
                 "nivel INTEGER," +
                 "experiencia REAL," +
-                "rango TEXT)";
+                "rango TEXT, " +
+                "native TEXT, " +
+                "target TEXT, " +
+                "active INTEGER)";
         sqLiteDatabase.execSQL(initialUsersTableString);
 
         String initialWordsTableString = "CREATE TABLE " + TABLE_WORDS + "(id INTEGER PRIMARY KEY AUTOINCREMENT," +
                 "imageurl TEXT," +
                 "texto TEXT," +
+                "translation TEXT," +
                 "UsuarioId INTEGER REFERENCES " + TABLE_USERS + "(id))";
         sqLiteDatabase.execSQL(initialWordsTableString);
     }

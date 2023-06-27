@@ -16,7 +16,15 @@ import com.example.myapplication.databinding.ActivityImageDisplayBinding
 import com.example.myapplication.db.DbHelper
 import com.example.myapplication.db.DbHelper.TABLE_WORDS
 import com.example.myapplication.db.DbUsers
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
+import com.google.mlkit.common.model.DownloadConditions
+import com.google.mlkit.common.model.RemoteModelManager
+import com.google.mlkit.nl.translate.TranslateLanguage
+import com.google.mlkit.nl.translate.Translation
+import com.google.mlkit.nl.translate.Translator
+import com.google.mlkit.nl.translate.TranslatorOptions
 import com.google.mlkit.vision.common.InputImage
 import com.google.mlkit.vision.text.Text
 import com.google.mlkit.vision.text.TextRecognition
@@ -27,6 +35,7 @@ import java.io.IOException
 @ExperimentalGetImage class ImageDisplayActivity : AppCompatActivity() {
     private lateinit var viewBinding: ActivityImageDisplayBinding
     private lateinit var editText1: EditText
+    private lateinit var translation: String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         viewBinding = ActivityImageDisplayBinding.inflate(layoutInflater)
@@ -65,8 +74,8 @@ import java.io.IOException
         finish()
     }
     private fun onSaveCard() {
-        Log.d("texto", editText1.text.toString())
-        Toast.makeText(baseContext, editText1.text.toString(), Toast.LENGTH_SHORT).show()
+        //Log.d("texto", editText1.text.toString())
+        //Toast.makeText(baseContext, editText1.text.toString(), Toast.LENGTH_SHORT).show()
         val dbHelper = DbHelper(this@ImageDisplayActivity)
         val db = dbHelper.writableDatabase
         if (db != null) {
@@ -100,6 +109,58 @@ import java.io.IOException
                 values.put("imageurl", imageUriString)
                 values.put("texto", editText1.text.toString())
                 values.put("UsuarioId", currentUser.id)
+                translateText(editText1.text.toString(), values, currentUser);
+
+            } else {
+                Toast.makeText(baseContext, "No usuario", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    // Método para realizar la traducción
+    private fun translateText(textToTranslate: String, values: ContentValues, current:Userinfo) {
+        //Create an English-German translator:
+        val dbHelper = DbHelper(this@ImageDisplayActivity)
+        val db = dbHelper.writableDatabase
+        var nativeLanguage = TranslateLanguage.SPANISH
+        var targetLanguage = TranslateLanguage.ENGLISH
+        if (current.mother == "Japanese") {
+            nativeLanguage = TranslateLanguage.JAPANESE
+        }
+        if (current.mother == "English") {
+            nativeLanguage = TranslateLanguage.ENGLISH
+        }
+        if (current.target == "Japanese") {
+            targetLanguage = TranslateLanguage.JAPANESE
+        }
+        if (current.target == "Spanish") {
+            targetLanguage = TranslateLanguage.SPANISH
+        }
+        val options = TranslatorOptions.Builder()
+            .setSourceLanguage(targetLanguage)
+            .setTargetLanguage(nativeLanguage)
+            .build()
+        val translator = Translation.getClient(options)
+        var conditions = DownloadConditions.Builder()
+            .requireWifi()
+            .build()
+        translator.downloadModelIfNeeded(conditions)
+            .addOnSuccessListener {
+                // Model downloaded successfully. Okay to start translating.
+                // (Set a flag, unhide the translation UI, etc.)
+                Toast.makeText(baseContext,"exito",Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener { exception ->
+                // Model couldn’t be downloaded or other internal error.
+                Toast.makeText(baseContext,"error",Toast.LENGTH_SHORT).show()
+            }
+        translator.translate(textToTranslate)
+            .addOnSuccessListener { translatedText ->
+                // Translation successful.
+                translation = translatedText.toString()
+                Log.d("Translation", translation)
+                values.put("translation", translation)
+
                 db.insert(TABLE_WORDS, null, values)
                 /*val newRowId = db.insert(TABLE_WORDS, null, values)
 
@@ -114,9 +175,12 @@ import java.io.IOException
                 val intent = Intent(this, ar_screen::class.java)
                 startActivity(intent)
                 finish()
-            } else {
-                Toast.makeText(baseContext, "No usuario", Toast.LENGTH_SHORT).show()
             }
-        }
+            .addOnFailureListener { exception ->
+                // Error.
+                Toast.makeText(baseContext,"Transalation error",Toast.LENGTH_SHORT).show()
+            }
+
     }
+
 }

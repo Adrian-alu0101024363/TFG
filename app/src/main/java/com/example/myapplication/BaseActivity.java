@@ -36,6 +36,14 @@ public class BaseActivity extends AppCompatActivity {
             case R.id.word_list:
                 Intent wordList_intent = new Intent(this,WordList.class);
                 startActivity(wordList_intent);
+                return true;
+            case R.id.logIn:
+                //logica cierre sesión
+                Intent logIn_intent = new Intent(this,LogIn.class);
+                startActivity(logIn_intent);
+                return true;
+            /*case R.id.CerrarSesion:
+                //logica cierre sesión*/
             default:
                 return super.onOptionsItemSelected(item);
         }
