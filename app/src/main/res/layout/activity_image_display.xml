@@ -38,13 +38,13 @@
 
     <Button
         android:id="@+id/saveCard"
-        android:layout_width="wrap_content"
-        android:layout_height="56dp"
+        android:layout_width="163dp"
+        android:layout_height="88dp"
         android:layout_below="@+id/edittext1"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="24dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginBottom="68dp"
         android:text="Save Card" />
 
 </RelativeLayout>
