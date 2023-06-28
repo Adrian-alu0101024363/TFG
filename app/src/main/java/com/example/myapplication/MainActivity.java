@@ -1,5 +1,6 @@
 package com.example.myapplication;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -15,9 +16,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.myapplication.db.DbHelper;
 import com.example.myapplication.db.DbUsers;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.mlkit.common.model.DownloadConditions;
+import com.google.mlkit.nl.translate.TranslateLanguage;
+import com.google.mlkit.nl.translate.Translation;
+import com.google.mlkit.nl.translate.Translator;
+import com.google.mlkit.nl.translate.TranslatorOptions;
 
 public class MainActivity extends BaseActivity {
 
@@ -26,6 +35,59 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initialChanges();
+        downloadFiles();
+    }
+
+    private void downloadFiles() {
+
+        TranslatorOptions options = new TranslatorOptions.Builder()
+                .setSourceLanguage(TranslateLanguage.ENGLISH)
+                .setTargetLanguage(TranslateLanguage.SPANISH)
+                .build();
+        Translator translator = Translation.getClient(options);
+        DownloadConditions conditions = new DownloadConditions.Builder()
+                .requireWifi()
+                .build();
+        translator.downloadModelIfNeeded(conditions)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // Model downloaded successfully. Okay to start translating.
+                        // (Set a flag, unhide the translation UI, etc.)
+                        //Toast.makeText(getApplicationContext(), "exito", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Model couldn't be downloaded or other internal error.
+                        //Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_SHORT).show();
+                    }
+                });
+        TranslatorOptions options2 = new TranslatorOptions.Builder()
+                .setSourceLanguage(TranslateLanguage.JAPANESE)
+                .setTargetLanguage(TranslateLanguage.ENGLISH)
+                .build();
+        Translator translator2 = Translation.getClient(options2);
+        DownloadConditions conditions2 = new DownloadConditions.Builder()
+                .requireWifi()
+                .build();
+        translator2.downloadModelIfNeeded(conditions2)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        // Model downloaded successfully. Okay to start translating.
+                        // (Set a flag, unhide the translation UI, etc.)
+                        //Toast.makeText(getApplicationContext(), "exito", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Model couldn't be downloaded or other internal error.
+                        //Toast.makeText(getApplicationContext(), "error", Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
     public void initialChanges() {
         TextView txtHello = (TextView)findViewById(R.id.welcomeMsg); // R refer to all resources

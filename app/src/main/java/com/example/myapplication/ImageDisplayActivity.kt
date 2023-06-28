@@ -150,6 +150,7 @@ import java.io.IOException
             .addOnSuccessListener {
                 // Model downloaded successfully. Okay to start translating.
                 // (Set a flag, unhide the translation UI, etc.)
+
                 Toast.makeText(baseContext,"exito",Toast.LENGTH_SHORT).show()
             }
             .addOnFailureListener { exception ->
@@ -181,6 +182,20 @@ import java.io.IOException
             .addOnFailureListener { exception ->
                 // Error.
                 Toast.makeText(baseContext,"Transalation error",Toast.LENGTH_SHORT).show()
+                db.insert(TABLE_WORDS, null, values)
+                /*val newRowId = db.insert(TABLE_WORDS, null, values)
+
+                if (newRowId != -1L) {
+                    // La inserción fue exitosa
+                    // Puedes realizar las acciones necesarias aquí
+                } else {
+                    // La inserción falló
+                    // Puedes manejar el caso de error aquí
+                }*/
+                db.close()
+                val intent = Intent(this, ar_screen::class.java)
+                startActivity(intent)
+                finish()
             }
 
     }
